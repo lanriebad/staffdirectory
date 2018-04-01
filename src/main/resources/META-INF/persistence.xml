@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+	<persistence-unit name="staffdetails">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+
+
+		<class>com.staff.model</class>
+		<class>com.staff.repository</class>
+		<class>com.staff.controller</class>
+		<properties>
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/newtablestaff" />
+			<property name="hibernate.connection.driver" value= "com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.user" value="root" />
+			<property name="hibernate.connection.password" value="" />
+			
+
+
+		</properties>
+
+	</persistence-unit>
+
+
+
+
+
