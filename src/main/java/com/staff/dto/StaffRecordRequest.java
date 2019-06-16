@@ -1,20 +1,10 @@
-package com.staff.model;
+package com.staff.dto;
 
 import java.beans.Transient;
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-
-@Table(name = "staffrecordtable")
-@Entity
-public class StaffRecord implements Serializable {
-
-    private static final long serialVersionUID = 413871362235202430L;
+public class StaffRecordRequest implements Serializable {
 
     private String branch;
 
@@ -30,8 +20,6 @@ public class StaffRecord implements Serializable {
 
     private String floor;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String image;

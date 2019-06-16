@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.staff.dto.StaffRecordRequest;
+import com.staff.dto.StaffRecordResponse;
 import com.staff.model.StaffRecord;
-import com.staff.repository.StaffRepository;
+import com.staff.service.StaffRecordService;
 
 
 @RestController
@@ -24,52 +26,51 @@ import com.staff.repository.StaffRepository;
 @CrossOrigin(origins = "*")
 public class StaffRecordController {
 
-    private StaffRepository staffrepo;
+    private StaffRecordService staffRecordService;
 
 
     @Autowired
-    public StaffRecordController(StaffRepository staffrepo) {
-        this.staffrepo = staffrepo;
+    public StaffRecordController(StaffRecordService staffRecordService) {
+        this.staffRecordService = staffRecordService;
     }
 
 
     @RequestMapping(value = "/staff/delete/{id}", method = RequestMethod.POST)
     public boolean deleteStaffRecordById(@PathVariable Long id) {
-        staffrepo.delete(id);
-        return true;
+        return staffRecordService.delete(id);
     }
 
 
     @RequestMapping(value = "/staff/{id}", method = RequestMethod.GET)
-    public StaffRecord getStaffRecordById(@PathVariable Long id) {
-        return staffrepo.findOne(id);
+    public List<StaffRecordResponse> getStaffRecordById(@PathVariable Long id) {
+        return staffRecordService.findStaffById(id);
     }
 
 
     @RequestMapping(value = "/staff", method = RequestMethod.GET)
     public Page<StaffRecord> getStaffRecords(Pageable pageable) {
-        return staffrepo.findAll(pageable);
+        return staffRecordService.findAll(pageable);
     }
 
 
     @RequestMapping(value = "/staff/name", method = RequestMethod.GET)
-    public List<StaffRecord> getStaffRecords(@RequestParam String name) {
+    public List<StaffRecordResponse> getStaffRecords(@RequestParam String name) {
         if (!StringUtils.isEmpty(name)) {
-            return staffrepo.findByFirstNameOrLastNameOrDepartmentOrFloor("%" + name + "%");
+            return staffRecordService.findByFirstNameOrLastNameOrDepartmentOrFloor("%" + name + "%");
         }
-        return new ArrayList<StaffRecord>();
+        return new ArrayList<StaffRecordResponse>();
     }
 
 
     @RequestMapping(value = "/staff", method = RequestMethod.POST)
-    public StaffRecord postStaffRecord(@RequestBody StaffRecord staffdetails) {
-        return staffrepo.saveAndFlush(staffdetails);
+    public StaffRecord postStaffRecord(@RequestBody StaffRecordRequest staffdetails) {
+        return staffRecordService.addStaffRecord(staffdetails);
     }
 
 
     @RequestMapping(value = "/staff/id/{id}", method = RequestMethod.POST)
-    public StaffRecord updateStaffRecord(@PathVariable Long id, @RequestBody StaffRecord record) {
+    public StaffRecord updateStaffRecordById(@PathVariable Long id, @RequestBody StaffRecordRequest record) {
         record.setId(id);
-        return staffrepo.save(record);
+        return staffRecordService.updateStaffRecordById(record);
     }
 }

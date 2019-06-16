@@ -19,5 +19,9 @@ public interface StaffRepository extends JpaRepository<StaffRecord, Long> {
 
 
     @Query("select s from StaffRecord s where s.id=:id ")
+    List<StaffRecord> findStaffById(@Param("id") Long id);
+
+
+    @Query("select s from StaffRecord s where s.id=:id ")
     StaffRecord update(@Param("id") Long id);
 }
